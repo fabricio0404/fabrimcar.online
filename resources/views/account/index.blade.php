@@ -79,6 +79,44 @@
     </section>
     <!-- /.content -->
 </div>
+
+<div class="content-wrapper">
+    <!-- Main content -->
+    <section class="content">
+        <div class="container-fluid">
+            <!-- Main row -->
+            <div class="row">
+
+                <div class="col-md-4">
+                    <!-- /.info-box -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 style="color: green" class="card-title">Ganancias:</h3>
+                        </div>
+                        <!-- /.card-header -->
+                        <div class="card-body">
+
+                            <!-- TODO para ganancias -->
+
+
+                        </div>
+                        <!-- /.card-body -->
+                        <div class="card-footer p-0">
+                            
+                            <!-- TODO footer para ganancias -->
+                        </div>
+
+                        <!-- /.footer -->
+                    </div>
+                    <!-- /.card -->
+                </div>
+                <!-- /.col -->
+            </div>
+            <!-- /.row -->
+        </div><!--/. container-fluid -->
+    </section>
+    <!-- /.content -->
+</div>
 <!-- /.content-wrapper -->
 
 <!-- Control Sidebar -->

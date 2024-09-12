@@ -130,6 +130,18 @@
                                 </li>
                             </ul>
                         </div>
+
+
+                        <div class="card-footer p-0 font-italic font-weight-bold">
+                            <ul class="nav nav-pills flex-column">
+                                <li class="nav-item" style="font-size: 120%">
+                                    <a href="#" class="nav-link">
+                                        <span class="float-right text-white">Ganancia:
+                                            ${{ $gain }}</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
                     @else
                         <div class="card-footer p-0 font-italic font-weight-bold">
                             <ul class="nav nav-pills flex-column">

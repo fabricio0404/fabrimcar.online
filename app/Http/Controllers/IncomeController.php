@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreIncomeRequest;
 use App\Models\Account;
 use App\Models\Category;
+use App\Models\Egress;
 use App\Models\Income;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -42,9 +43,22 @@ class IncomeController extends Controller
             )
             ->get();
 
+        $totalEgress = Egress::selectRaw('sum(egress) as totalEgress')
+            ->whereBetween(
+                'created_at',
+                [
+                    Carbon::now()->startOfMonth()->format('Y-m-d'),
+                    Carbon::now()->endOfMonth()->format('Y-m-d')
+                ]
+            )
+            ->get();
+
+        $gain = $total[0]->total - $totalEgress[0]->totalEgress;
+
+
         $mesActual = $this->mesActual() . " " . Carbon::now()->startOfMonth()->format('Y');
 
-        return view("income.index", compact("incomes", "categories", "total", "mesActual"));
+        return view("income.index", compact("incomes", "categories", "total", "mesActual", "gain"));
     }
 
     private function mesActual()
@@ -100,9 +114,16 @@ class IncomeController extends Controller
             ->whereDate('created_at', Carbon::now()->format('Y-m-d'))
             ->get();
 
+        $totalEgress = Egress::selectRaw('sum(egress) as totalEgress')
+            ->whereDate('created_at', Carbon::now()->format('Y-m-d'))
+            ->get();
+
+
+        $gain = $total[0]->total - $totalEgress[0]->totalEgress;
+
         $mesActual = Carbon::now()->format('d-m-Y'); //TODO aca tengo que cambiar por dia actual
 
-        return view("income.index", compact("incomes", "categories", "total", "mesActual"));
+        return view("income.index", compact("incomes", "categories", "total", "mesActual", "gain"));
     }
 
     /**
@@ -123,7 +144,18 @@ class IncomeController extends Controller
             ->orderBy('created_at', 'desc')
             ->get();
 
+
         $total = Income::selectRaw('sum(income) as total')
+            ->whereBetween(
+                'created_at',
+                [
+                    Carbon::now()->startOfWeek()->format('Y-m-d'),
+                    Carbon::now()->endOfWeek()->format('Y-m-d')
+                ]
+            )
+            ->get();
+
+        $totalEgress = Egress::selectRaw('sum(egress) as totalEgress')
             ->whereBetween(
                 'created_at',
                 [
@@ -135,7 +167,9 @@ class IncomeController extends Controller
 
         $mesActual = "Semana " . Carbon::now()->startOfWeek()->format('d-m-Y') . " hasta " . Carbon::now()->endOfWeek()->format('d-m-Y');
 
-        return view("income.index", compact("incomes", "categories", "total", "mesActual"));
+        $gain = $total[0]->total - $totalEgress[0]->totalEgress;
+
+        return view("income.index", compact("incomes", "categories", "total", "mesActual", "gain"));
 
     }
 
@@ -167,9 +201,21 @@ class IncomeController extends Controller
             )
             ->get();
 
+        $totalEgress = Egress::selectRaw('sum(egress) as totalEgress')
+            ->whereBetween(
+                'created_at',
+                [
+                    Carbon::now()->startOfYear()->format('Y-m-d'),
+                    Carbon::now()->endOfYear()->format('Y-m-d')
+                ]
+            )
+            ->get();
+
+        $gain = $total[0]->total - $totalEgress[0]->totalEgress;
+
         $mesActual = "Año " . Carbon::now()->format('Y');
 
-        return view("income.index", compact("incomes", "categories", "total", "mesActual"));
+        return view("income.index", compact("incomes", "categories", "total", "mesActual", "gain"));
     }
 
     /**
